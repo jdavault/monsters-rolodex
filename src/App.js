@@ -9,13 +9,14 @@ class App extends React.Component {
     this.state =
     {
       monsters: [],
-      searchField: ""
+      searchField: "",
+      title: "Monsters Rolodex"
     };
     //this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    fetch('http://jsonplaceholder.typicode.com/users')
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(users => this.setState({ monsters: users }))
   }
@@ -24,8 +25,11 @@ class App extends React.Component {
     this.setState({ searchField: e.target.value});
   }
 
+  onSearchChange = event => {
+    this.setState({ searchField: event.target.value, title: event.target.value});
+  }
   render() {
-    const { monsters, searchField } = this.state;
+    const { monsters, searchField, title } = this.state;
     const filteredMonsters = monsters.filter(monster =>
       monster.name.toLowerCase().includes(searchField.toLowerCase()) ); 
 
@@ -33,7 +37,7 @@ class App extends React.Component {
       <div className="App">
         <h1> Monsters Rolodex </h1>
         <SearchBox placeholder="search monster" 
-        handleChange={this.handleChange} />
+                    handleChange={this.handleChange} />
         <CardList monsters={filteredMonsters} />
       </div>
     );
